@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YUUMA200 // GLOBAL CENTRAL CORE</title>
+    <style>
+        body {
+            background: #000 url('https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?q=80&w=1920') no-repeat center center fixed;
+            background-size: cover;
+            color: #ffffff;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(12, 15, 29, 0.6);
+            z-index: 1;
+        }
+        .content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            width: 90%;
+            max-width: 650px;
+        }
+        h1 {
+            font-size: 42px;
+            letter-spacing: 3px;
+            margin-bottom: 25px;
+            font-weight: 600;
+            background: linear-gradient(45deg, #00ffcc, #3399ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .search-box {
+            display: flex;
+            background: rgba(28, 33, 53, 0.85);
+            border: 2px solid #2d3758;
+            border-radius: 30px;
+            padding: 10px 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            transition: 0.3s;
+        }
+        .search-box:focus-within {
+            border-color: #00ffcc;
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
+        }
+        input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-size: 16px;
+            width: 100%;
+        }
+        .shortcuts {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-top: 40px;
+        }
+        .icon-card {
+            background: rgba(2 DISIGN55, 255, 255, 0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+            text-decoration: none;
+            color: #ccc;
+        }
+        .icon-card:hover {
+            background: rgba(0, 255, 204, 0.15);
+            border-color: #00ffcc;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+        .icon-img {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        .icon-title {
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay"></div>
+    <div class="content">
+        <h1>YUUMA200_CORE</h1>
+        <div class="search-box">
+            <input type="text" id="searchQuery" placeholder="Enter command or target query..." onkeydown="if(event.key==='Enter') executeSearch()">
+        </div>
+        <div class="shortcuts">
+            <a class="icon-card" href="https://github.com/Yuuumaru/cyber-browser" target="_blank">
+                <div class="icon-img">📁</div>
+                <div class="icon-title">Cyber-Browser</div>
+            </a>
+            <a class="icon-card" href="https://github.com/Yuuumaru/EP_Monitor_ver4.0" target="_blank">
+                <div class="icon-img">📡</div>
+                <div class="icon-title">EP_Monitor</div>
+            </a>
+            <a class="icon-card" href="https://github.com/Yuuumaru/ver2.0" target="_blank">
+                <div class="icon-img">⚙️</div>
+                <div class="icon-title">ver2.0</div>
+            </a>
+            <a class="icon-card" href="https://github.com/trending" target="_blank">
+                <div class="icon-img">🔥</div>
+                <div class="icon-title">Trending</div>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // 内蔵カスタムデータベース
+        const database = {
+            "https://github.com/Yuuumaru/cyber-browser": "cyber-browser 近未来的uiブラウザ メインリポジトリ",
+            "https://github.com/Yuuumaru/ver2.0": "ver2.0 開発中コアシステム",
+            "https://github.com/Yuuumaru/EP_Monitor_ver4.0": "ep_monitor_ver4.0 地震 環境自動監視システム",
+            "https://github.com/Yuuumaru/EQ_Monitor-ver3.0": "eq_monitor-ver3.0 地震速報モニター 旧バージョン",
+            "https://github.com/trending": "github trending トレンド プロジェクト",
+            "https://pyside.org": "pyside6 documentation gui開発 公式ドキュメント"
+        };
+
+        function executeSearch() {
+            const query = document.getElementById('searchQuery').value.trim().toLowerCase();
+            if (!query) return;
+
+            let targetUrl = "";
+
+            // 自前データベースの走査
+            for (const [url, desc] of Object.entries(database)) {
+                if (desc.includes(query) || url.toLowerCase().includes(query)) {
+                    targetUrl = url;
+                    break; 
+                }
+            }
+
+            // 【変更箇所】ヒットしなかった場合はGoogle検索へリダイレクト
+            if (!targetUrl) {
+                targetUrl = "https://www.google.com/search?q=" + encodeURIComponent(query);
+            }
+
+            window.location.href = targetUrl;
+        }
+    </script>
+</body>
+</html>
